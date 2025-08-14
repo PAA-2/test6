@@ -1,0 +1,31 @@
+[project]
+name = "api"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "alembic",
+    "psycopg2-binary",
+    "python-jose[cryptography]",
+    "pydantic-settings",
+    "passlib[bcrypt]",
+    "pydantic[email]",
+    "python-multipart",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "httpx",
+    "ruff",
+    "black",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
