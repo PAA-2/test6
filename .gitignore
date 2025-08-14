@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.env
+node_modules/
+.dist/
+.idea/
+.vscode/
+*.db
+coverage/
+.coverage
+dist/
+storage/uploads/*
+!storage/uploads/.gitignore
+test_uploads/
