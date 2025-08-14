@@ -1,6 +1,6 @@
-# PAA-P5
+# PAA-P6
 
-Ce projet étend PAA-P1 à PAA-P4 avec un tableau de bord analytique.
+Ce projet étend PAA-P1 à PAA-P5 avec un système de tâches asynchrones.
 
 ## Démarrer
 
@@ -46,8 +46,12 @@ npm run dev
 - `GET /analytics/summary`
 - `GET /analytics/projects-per-day`
 - `GET /analytics/top-users` (admin)
+- `POST /tasks/analytics/rebuild` (admin)
+- `POST /tasks/files/{id}/thumbnail`
+- `GET /tasks/{id}/status`
+- `GET /tasks` (admin)
 
-Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`.
+Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`, `REDIS_URL`, `JOBS_MAX_RETRIES`, `ANALYTICS_REFRESH_CRON`, `NOTIFICATIONS_CLEANUP_CRON`, `THUMBNAIL_MAX_SIZE`, `THUMBNAIL_QUALITY`.
 
 ## Structure
 

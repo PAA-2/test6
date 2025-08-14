@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     SMTP_USER: str = ""
     SMTP_PASS: str = ""
     ANALYTICS_CACHE_TTL_SECONDS: int = 60
+    REDIS_URL: str = "redis://localhost:6379/0"
+    JOBS_MAX_RETRIES: int = 3
+    ANALYTICS_REFRESH_CRON: str = "*/10 * * * *"
+    NOTIFICATIONS_CLEANUP_CRON: str = "0 2 * * *"
+    THUMBNAIL_MAX_SIZE: int = 512
+    THUMBNAIL_QUALITY: int = 80
+    NOTIFICATIONS_RETENTION_DAYS: int = 30
 
     class Config:
         env_file = ".env"

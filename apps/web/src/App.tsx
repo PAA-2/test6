@@ -7,6 +7,7 @@ import ProjectForm from './pages/ProjectForm';
 import ProjectDetails from './pages/ProjectDetails';
 import MyFiles from './pages/MyFiles';
 import MyNotifications from './pages/MyNotifications';
+import Jobs from './pages/Jobs';
 
 function App() {
   const token = localStorage.getItem('token') || '';
@@ -22,6 +23,7 @@ function App() {
       <Route path="/projects/:id/edit" element={<ProjectForm token={token} editing />} />
       <Route path="/files" element={<MyFiles token={token} />} />
       <Route path="/notifications" element={<MyNotifications token={token} />} />
+      <Route path="/jobs" element={<Jobs />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import UploadForm from '../components/UploadForm';
 import { useFiles } from '../hooks/useFiles';
 import { deleteFileApi, downloadFile, FileMeta } from '../api/files';
+import { enqueueThumbnail } from '../api/jobs';
+import { useJobStatus } from '../hooks/useJobStatus';
 
 interface Props {
   token: string;
@@ -10,6 +12,7 @@ interface Props {
 export default function MyFiles({ token }: Props) {
   const [reload, setReload] = useState(0);
   const { data, loading, error } = useFiles(token, reload);
+  const [thumbJobs, setThumbJobs] = useState<Record<string, string>>({});
 
   const handleUploaded = () => setReload((r) => r + 1);
 
@@ -27,6 +30,16 @@ export default function MyFiles({ token }: Props) {
     a.download = name;
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const handleThumbnail = async (id: string) => {
+    const res = await enqueueThumbnail(token, id);
+    setThumbJobs((j) => ({ ...j, [id]: res.task_id }));
+  };
+
+  const ThumbStatus = ({ jobId }: { jobId: string }) => {
+    const job = useJobStatus(token, jobId);
+    return <span>{job?.status || 'queued'}</span>;
   };
 
   return (
@@ -57,6 +70,12 @@ export default function MyFiles({ token }: Props) {
                     Download
                   </button>
                   <button onClick={() => handleDelete(f.id)}>Delete</button>
+                  {f.mime_type.startsWith('image/') && (
+                    <button onClick={() => handleThumbnail(f.id)}>
+                      Thumbnail
+                    </button>
+                  )}
+                  {thumbJobs[f.id] && <ThumbStatus jobId={thumbJobs[f.id]} />}
                 </td>
               </tr>
             ))}

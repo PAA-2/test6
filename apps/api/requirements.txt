@@ -14,3 +14,8 @@ black
 pydantic-settings
 python-multipart
 aiosmtplib
+redis
+rq
+croniter
+pillow
+fakeredis

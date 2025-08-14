@@ -29,3 +29,10 @@ black --check .
 - `GET /analytics/summary`
 - `GET /analytics/projects-per-day?days=30`
 - `GET /analytics/top-users` (admin)
+
+## Endpoints tâches
+
+- `POST /tasks/analytics/rebuild` (admin)
+- `POST /tasks/files/{id}/thumbnail`
+- `GET /tasks/{id}/status`
+- `GET /tasks` (admin)
