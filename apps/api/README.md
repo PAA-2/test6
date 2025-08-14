@@ -36,3 +36,12 @@ black --check .
 - `POST /tasks/files/{id}/thumbnail`
 - `GET /tasks/{id}/status`
 - `GET /tasks` (admin)
+
+## Endpoints recherche
+
+- `GET /search`
+- `GET /search/facets`
+- `GET /search/suggestions`
+- `POST /search/saved`
+- `GET /search/saved`
+- `DELETE /search/saved/{id}`

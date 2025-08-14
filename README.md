@@ -1,6 +1,6 @@
-# PAA-P6
+# PAA-P7
 
-Ce projet étend PAA-P1 à PAA-P5 avec un système de tâches asynchrones.
+Ce projet étend PAA-P1 à PAA-P6 avec une recherche avancée unifiée pour projets et fichiers.
 
 ## Démarrer
 
@@ -50,8 +50,14 @@ npm run dev
 - `POST /tasks/files/{id}/thumbnail`
 - `GET /tasks/{id}/status`
 - `GET /tasks` (admin)
+- `GET /search`
+- `GET /search/facets`
+- `GET /search/suggestions`
+- `POST /search/saved`
+- `GET /search/saved`
+- `DELETE /search/saved/{id}`
 
-Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`, `REDIS_URL`, `JOBS_MAX_RETRIES`, `ANALYTICS_REFRESH_CRON`, `NOTIFICATIONS_CLEANUP_CRON`, `THUMBNAIL_MAX_SIZE`, `THUMBNAIL_QUALITY`.
+Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`, `REDIS_URL`, `JOBS_MAX_RETRIES`, `ANALYTICS_REFRESH_CRON`, `NOTIFICATIONS_CLEANUP_CRON`, `THUMBNAIL_MAX_SIZE`, `THUMBNAIL_QUALITY`, `SEARCH_PAGE_SIZE_MAX`, `SEARCH_LANGUAGE`.
 
 ## Structure
 
