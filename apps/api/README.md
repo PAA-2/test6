@@ -23,3 +23,9 @@ black --check .
 - `PATCH /notifications/{id}/read`
 - `PATCH /notifications/read-all`
 - WebSocket `/notifications/ws?token=...`
+
+## Endpoints analytics
+
+- `GET /analytics/summary`
+- `GET /analytics/projects-per-day?days=30`
+- `GET /analytics/top-users` (admin)

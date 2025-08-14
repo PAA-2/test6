@@ -1,6 +1,6 @@
-# PAA-P4
+# PAA-P5
 
-Ce projet étend PAA-P1 à PAA-P3 avec un système de notifications en temps réel (WebSocket) et par email.
+Ce projet étend PAA-P1 à PAA-P4 avec un tableau de bord analytique.
 
 ## Démarrer
 
@@ -43,8 +43,11 @@ npm run dev
 - `PATCH /notifications/{id}/read`
 - `PATCH /notifications/read-all`
 - WebSocket `ws://.../notifications/ws` (token en query)
+- `GET /analytics/summary`
+- `GET /analytics/projects-per-day`
+- `GET /analytics/top-users` (admin)
 
-Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`.
+Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`.
 
 ## Structure
 

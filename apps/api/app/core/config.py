@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 1025
     SMTP_USER: str = ""
     SMTP_PASS: str = ""
+    ANALYTICS_CACHE_TTL_SECONDS: int = 60
 
     class Config:
         env_file = ".env"
