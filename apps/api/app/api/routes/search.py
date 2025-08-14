@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
+from app.deps.org_context import get_current_org_id
 from app.models.user import User
 from app.schemas.search import (
     FacetsResponse,
@@ -22,8 +23,9 @@ def search_endpoint(
     params: SearchQuery = Depends(),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    org_id: str = Depends(get_current_org_id),
 ):
-    items, total = search_service.search(db, current_user, params)
+    items, total = search_service.search(db, current_user, params, org_id)
     return SearchResponse(
         items=items, page=params.page, page_size=params.page_size, total=total
     )
@@ -34,8 +36,9 @@ def facets_endpoint(
     params: SearchQuery = Depends(),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    org_id: str = Depends(get_current_org_id),
 ):
-    return search_service.facets(db, current_user, params)
+    return search_service.facets(db, current_user, params, org_id)
 
 
 @router.get("/suggestions", response_model=list[SuggestionItem])
@@ -45,8 +48,9 @@ def suggestions_endpoint(
     limit: int = Query(8, ge=1, le=20),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
+    org_id: str = Depends(get_current_org_id),
 ):
-    return search_service.suggestions(db, current_user, q, type, limit)
+    return search_service.suggestions(db, current_user, q, type, limit, org_id)
 
 
 @router.post("/saved", response_model=SavedSearchOut)

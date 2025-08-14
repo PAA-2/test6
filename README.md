@@ -1,6 +1,9 @@
-# PAA-P7
+# PAA-P8
 
-Ce projet étend PAA-P1 à PAA-P6 avec une recherche avancée unifiée pour projets et fichiers.
+Ce projet étend PAA-P1 à PAA-P7 en introduisant des organisations multi-tenant
+avec invitations et sélection d'organisation côté utilisateur. Toutes les
+données (projets, fichiers, recherche, analytics) sont désormais rattachées à
+une organisation.
 
 ## Démarrer
 
@@ -56,8 +59,16 @@ npm run dev
 - `POST /search/saved`
 - `GET /search/saved`
 - `DELETE /search/saved/{id}`
+- `POST /orgs`
+- `GET /orgs`
+- `GET /orgs/{id}`
+- `GET /orgs/{id}/members`
+- `POST /orgs/{id}/invites`
+- `GET /invites/{token}`
+- `POST /invites/{token}/accept`
+- `POST /me/org`
 
-Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`, `REDIS_URL`, `JOBS_MAX_RETRIES`, `ANALYTICS_REFRESH_CRON`, `NOTIFICATIONS_CLEANUP_CRON`, `THUMBNAIL_MAX_SIZE`, `THUMBNAIL_QUALITY`, `SEARCH_PAGE_SIZE_MAX`, `SEARCH_LANGUAGE`.
+Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`, `EMAIL_NOTIFICATIONS_ENABLED`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `ANALYTICS_CACHE_TTL_SECONDS`, `REDIS_URL`, `JOBS_MAX_RETRIES`, `ANALYTICS_REFRESH_CRON`, `NOTIFICATIONS_CLEANUP_CRON`, `THUMBNAIL_MAX_SIZE`, `THUMBNAIL_QUALITY`, `SEARCH_PAGE_SIZE_MAX`, `SEARCH_LANGUAGE`, `INVITE_TOKEN_TTL_HOURS`, `APP_BASE_URL`.
 
 ## Structure
 

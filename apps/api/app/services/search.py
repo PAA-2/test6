@@ -38,7 +38,8 @@ def _highlight(text: str | None, q: str | None) -> str:
     return pattern.sub(lambda m: f"<mark>{m.group(0)}</mark>", snippet)
 
 
-def _apply_project_filters(query, params: SearchQuery, user: User):
+def _apply_project_filters(query, params: SearchQuery, user: User, org_id: str):
+    query = query.filter(Project.org_id == org_id)
     if params.owner == "me" or (user.role != "admin" and params.owner != "all"):
         query = query.filter(Project.owner_id == user.id)
     if params.created_from:
@@ -55,7 +56,8 @@ def _apply_project_filters(query, params: SearchQuery, user: User):
     return query
 
 
-def _apply_file_filters(query, params: SearchQuery, user: User):
+def _apply_file_filters(query, params: SearchQuery, user: User, org_id: str):
+    query = query.filter(File.org_id == org_id)
     if params.owner == "me" or (user.role != "admin" and params.owner != "all"):
         query = query.filter(File.owner_id == user.id)
     if params.created_from:
@@ -72,10 +74,10 @@ def _apply_file_filters(query, params: SearchQuery, user: User):
     return query
 
 
-def search(db: Session, user: User, params: SearchQuery):
+def search(db: Session, user: User, params: SearchQuery, org_id: str):
     items: List[SearchItem] = []
     if params.type in ("project", "all"):
-        pq = _apply_project_filters(db.query(Project), params, user)
+        pq = _apply_project_filters(db.query(Project), params, user, org_id)
         for p in pq.all():
             score = (
                 1.0
@@ -98,7 +100,7 @@ def search(db: Session, user: User, params: SearchQuery):
                 )
             )
     if params.type in ("file", "all"):
-        fq = _apply_file_filters(db.query(File), params, user)
+        fq = _apply_file_filters(db.query(File), params, user, org_id)
         for f in fq.all():
             score = (
                 1.0 if params.q and params.q.lower() in f.original_name.lower() else 0.0
@@ -130,8 +132,8 @@ def search(db: Session, user: User, params: SearchQuery):
     return items[start:end], total
 
 
-def facets(db: Session, user: User, params: SearchQuery) -> FacetsResponse:
-    pq = _apply_project_filters(db.query(Project), params, user)
+def facets(db: Session, user: User, params: SearchQuery, org_id: str) -> FacetsResponse:
+    pq = _apply_project_filters(db.query(Project), params, user, org_id)
     sub_p = pq.subquery()
     project_counts = {
         status: count
@@ -139,7 +141,7 @@ def facets(db: Session, user: User, params: SearchQuery) -> FacetsResponse:
         .group_by(sub_p.c.status)
         .all()
     }
-    fq = _apply_file_filters(db.query(File), params, user)
+    fq = _apply_file_filters(db.query(File), params, user, org_id)
     sub_f = fq.subquery()
     mime_counts = [
         {"mime": mime, "count": count}
@@ -150,16 +152,20 @@ def facets(db: Session, user: User, params: SearchQuery) -> FacetsResponse:
     return FacetsResponse(projects_by_status=project_counts, files_by_mime=mime_counts)
 
 
-def suggestions(db: Session, user: User, q: str, type_: str, limit: int):
+def suggestions(db: Session, user: User, q: str, type_: str, limit: int, org_id: str):
     results: List[SuggestionItem] = []
     if type_ in ("project", "all"):
-        query = db.query(Project).filter(Project.name.ilike(f"%{q}%"))
+        query = db.query(Project).filter(
+            Project.name.ilike(f"%{q}%"), Project.org_id == org_id
+        )
         if user.role != "admin":
             query = query.filter(Project.owner_id == user.id)
         for p in query.limit(limit).all():
             results.append(SuggestionItem(entity="project", title=p.name))
     if len(results) < limit and type_ in ("file", "all"):
-        query = db.query(File).filter(File.original_name.ilike(f"%{q}%"))
+        query = db.query(File).filter(
+            File.original_name.ilike(f"%{q}%"), File.org_id == org_id
+        )
         if user.role != "admin":
             query = query.filter(File.owner_id == user.id)
         for f in query.limit(limit - len(results)).all():

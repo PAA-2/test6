@@ -3,9 +3,9 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
+    String,
     Integer,
     JSON,
-    String,
     Text,
     func,
 )
@@ -25,6 +25,7 @@ class Project(Base):
         Enum("draft", "active", "archived", name="project_status"), nullable=False
     )
     owner_id = Column(ForeignKey("users.id"), nullable=False)
+    org_id = Column(ForeignKey("organizations.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

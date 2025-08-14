@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Enum, Integer, String, func
+from sqlalchemy import Column, DateTime, Enum, Integer, String, func, ForeignKey
 from sqlalchemy import Boolean
 
 from app.database import Base
@@ -17,6 +17,7 @@ class User(Base):
         server_default="viewer",
     )
     email_notifications = Column(Boolean, server_default="1", nullable=False)
+    last_selected_org_id = Column(ForeignKey("organizations.id"), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

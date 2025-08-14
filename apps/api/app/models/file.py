@@ -9,6 +9,7 @@ class File(Base):
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     owner_id = Column(ForeignKey("users.id"), nullable=False)
+    org_id = Column(ForeignKey("organizations.id"), nullable=False)
     original_name = Column(String, nullable=False)
     stored_name = Column(String, nullable=False)
     mime_type = Column(String, nullable=False)

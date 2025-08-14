@@ -8,7 +8,9 @@ from app.core.config import settings
 from app.models.file import File
 
 
-def save_file(db: Session, *, upload: UploadFile, content: bytes, user_id: int) -> File:
+def save_file(
+    db: Session, *, upload: UploadFile, content: bytes, user_id: int, org_id: str
+) -> File:
     upload_dir = Path(settings.UPLOAD_DIR)
     upload_dir.mkdir(parents=True, exist_ok=True)
     ext = Path(upload.filename).suffix
@@ -18,6 +20,7 @@ def save_file(db: Session, *, upload: UploadFile, content: bytes, user_id: int) 
         f.write(content)
     db_file = File(
         owner_id=user_id,
+        org_id=org_id,
         original_name=upload.filename,
         stored_name=stored_name,
         mime_type=upload.content_type or "application/octet-stream",

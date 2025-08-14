@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
+from app.deps.org_context import get_current_org_id
 from app.core.config import settings
 from app.models.file import File as FileModel
 from app.models.user import User
@@ -21,6 +22,7 @@ async def upload_file(
     *,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org_id),
     file: UploadFile = File(...),
 ):
     if file.content_type not in settings.ALLOWED_FILE_TYPES.split(","):
@@ -28,7 +30,9 @@ async def upload_file(
     content = await file.read()
     if len(content) > settings.MAX_FILE_SIZE_MB * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large")
-    db_file = save_file(db, upload=file, content=content, user_id=current_user.id)
+    db_file = save_file(
+        db, upload=file, content=content, user_id=current_user.id, org_id=org_id
+    )
     await create_notification(
         db,
         user=current_user,
@@ -43,6 +47,7 @@ def list_files(
     *,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org_id),
     page: int = 1,
     page_size: int = 10,
     sort: str = "created_at",
@@ -51,7 +56,7 @@ def list_files(
     if page_size > 100:
         page_size = 100
     skip = (page - 1) * page_size
-    query = db.query(FileModel)
+    query = db.query(FileModel).filter(FileModel.org_id == org_id)
     if current_user.role != "admin":
         query = query.filter(FileModel.owner_id == current_user.id)
     if sort not in {"created_at", "original_name"}:
@@ -69,8 +74,13 @@ def download_file(
     *,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org_id),
 ):
-    file = db.query(FileModel).get(file_id)
+    file = (
+        db.query(FileModel)
+        .filter(FileModel.id == file_id, FileModel.org_id == org_id)
+        .first()
+    )
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
     if current_user.role != "admin" and file.owner_id != current_user.id:
@@ -87,8 +97,13 @@ def delete_file_endpoint(
     *,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
+    org_id: str = Depends(get_current_org_id),
 ):
-    file = db.query(FileModel).get(file_id)
+    file = (
+        db.query(FileModel)
+        .filter(FileModel.id == file_id, FileModel.org_id == org_id)
+        .first()
+    )
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
     if current_user.role != "admin" and file.owner_id != current_user.id:

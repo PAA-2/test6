@@ -37,14 +37,14 @@ def clear_cache() -> None:
         _cache.clear()
 
 
-def get_summary(db: Session, user: User) -> Dict[str, Any]:
-    key = f"summary:{user.id}:{user.role}"
+def get_summary(db: Session, user: User, org_id: str) -> Dict[str, Any]:
+    key = f"summary:{user.id}:{user.role}:{org_id}"
     cached = _get_cache(key)
     if cached:
         return cached
 
-    project_filters = []
-    file_filters = []
+    project_filters = [Project.org_id == org_id]
+    file_filters = [File.org_id == org_id]
     if user.role != "admin":
         project_filters.append(Project.owner_id == user.id)
         file_filters.append(File.owner_id == user.id)
@@ -96,8 +96,10 @@ def get_summary(db: Session, user: User) -> Dict[str, Any]:
     return data
 
 
-def get_projects_per_day(db: Session, user: User, days: int) -> List[Dict[str, Any]]:
-    key = f"ppd:{user.id}:{user.role}:{days}"
+def get_projects_per_day(
+    db: Session, user: User, days: int, org_id: str
+) -> List[Dict[str, Any]]:
+    key = f"ppd:{user.id}:{user.role}:{days}:{org_id}"
     cached = _get_cache(key)
     if cached:
         return cached
@@ -107,7 +109,7 @@ def get_projects_per_day(db: Session, user: User, days: int) -> List[Dict[str, A
         cast(Project.created_at, Date).label("day"),
         func.count(Project.id).label("count"),
     ).filter(cast(Project.created_at, Date) >= start)
-
+    query = query.filter(Project.org_id == org_id)
     if user.role != "admin":
         query = query.filter(Project.owner_id == user.id)
 

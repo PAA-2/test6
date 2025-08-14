@@ -9,6 +9,9 @@ from app.api.routes import (
     analytics,
     tasks,
     search,
+    orgs,
+    me_org,
+    invites,
 )
 from app.database import Base, engine
 
@@ -23,3 +26,6 @@ app.include_router(notifications.router)
 app.include_router(analytics.router)
 app.include_router(tasks.router)
 app.include_router(search.router)
+app.include_router(orgs.router)
+app.include_router(invites.router)
+app.include_router(me_org.router)

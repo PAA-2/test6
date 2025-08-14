@@ -7,6 +7,8 @@ from app.main import app
 from app.models.user import User
 from app.models.project import Project
 from app.models.file import File
+from app.models.org_membership import OrgMembership
+from app.services.orgs import create_default_org_for_user
 from app.api.deps import get_current_user
 from app.core.security import get_password_hash
 
@@ -33,6 +35,9 @@ def create_user(email: str, role: str) -> User:
     db.add(user)
     db.commit()
     db.refresh(user)
+    create_default_org_for_user(db, user)
+    db.refresh(user)
+    db.expunge(user)
     db.close()
     return user
 
@@ -44,11 +49,17 @@ def set_current_user(user: User):
 def setup_data() -> User:
     user = create_user("u@example.com", "admin")
     db = TestingSessionLocal()
+    org_id = (
+        db.query(OrgMembership.org_id)
+        .filter(OrgMembership.user_id == user.id)
+        .first()[0]
+    )
     p = Project(
         name="Contract Project",
         description="something contract",
         status="active",
         owner_id=user.id,
+        org_id=org_id,
     )
     f = File(
         original_name="contract.pdf",
@@ -56,6 +67,7 @@ def setup_data() -> User:
         mime_type="application/pdf",
         size_bytes=1,
         owner_id=user.id,
+        org_id=org_id,
     )
     db.add_all([p, f])
     db.commit()
