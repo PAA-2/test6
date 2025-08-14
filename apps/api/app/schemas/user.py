@@ -12,11 +12,13 @@ class UserCreate(UserBase):
 
 class UserUpdate(BaseModel):
     full_name: str | None = None
+    email_notifications: bool | None = None
 
 
 class UserRead(UserBase):
     id: int
     role: str
+    email_notifications: bool
 
     class Config:
         orm_mode = True

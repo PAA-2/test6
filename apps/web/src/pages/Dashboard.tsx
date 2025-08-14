@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMe } from '../api';
+import NotificationBell from '../components/NotificationBell';
 
 interface User {
   email: string;
@@ -28,6 +29,7 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
+      <NotificationBell token={localStorage.getItem('token') || ''} />
       <p>{user.email}</p>
     </div>
   );

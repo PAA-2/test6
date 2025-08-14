@@ -13,3 +13,4 @@ ruff
 black
 pydantic-settings
 python-multipart
+aiosmtplib

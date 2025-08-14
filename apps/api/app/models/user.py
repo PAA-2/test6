@@ -1,4 +1,5 @@
 from sqlalchemy import Column, DateTime, Enum, Integer, String, func
+from sqlalchemy import Boolean
 
 from app.database import Base
 
@@ -15,6 +16,7 @@ class User(Base):
         nullable=False,
         server_default="viewer",
     )
+    email_notifications = Column(Boolean, server_default="1", nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

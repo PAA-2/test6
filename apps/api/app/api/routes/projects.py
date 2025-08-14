@@ -13,19 +13,27 @@ from app.schemas.project import (
     ProjectUpdate,
 )
 from app.services.projects import create_project, delete_project, update_project
+from app.services.notifications import create_notification
 
 router = APIRouter(prefix="/projects", tags=["projects"])
 
 
 @router.post("", response_model=ProjectRead)
-def create_project_endpoint(
+async def create_project_endpoint(
     project_in: ProjectCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(require_role("admin", "editor")),
 ) -> Project:
-    return create_project(
+    project = create_project(
         db, project_in=project_in.model_dump(), user_id=current_user.id
     )
+    await create_notification(
+        db,
+        user=current_user,
+        type="project_created",
+        message=f"Project created: {project.name}",
+    )
+    return project
 
 
 @router.get("", response_model=List[ProjectRead])

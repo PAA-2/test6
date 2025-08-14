@@ -11,6 +11,7 @@ from app.models.file import File as FileModel
 from app.models.user import User
 from app.schemas.file import FileRead
 from app.services.files import delete_file, save_file
+from app.services.notifications import create_notification
 
 router = APIRouter(prefix="/files", tags=["files"])
 
@@ -28,6 +29,12 @@ async def upload_file(
     if len(content) > settings.MAX_FILE_SIZE_MB * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large")
     db_file = save_file(db, upload=file, content=content, user_id=current_user.id)
+    await create_notification(
+        db,
+        user=current_user,
+        type="file_uploaded",
+        message=f"File uploaded: {db_file.original_name}",
+    )
     return db_file
 
 

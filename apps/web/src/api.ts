@@ -40,7 +40,10 @@ export async function getMe(token: string) {
   return res.json();
 }
 
-export async function updateMe(token: string, data: { full_name: string }) {
+export async function updateMe(
+  token: string,
+  data: { full_name?: string; email_notifications?: boolean },
+) {
   const res = await fetch(`${API_URL}/me`, {
     method: 'PUT',
     headers: {

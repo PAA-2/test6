@@ -17,6 +17,11 @@ class Settings(BaseSettings):
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     UPLOAD_DIR: str = "storage/uploads"
+    EMAIL_NOTIFICATIONS_ENABLED: bool = False
+    SMTP_HOST: str = "localhost"
+    SMTP_PORT: int = 1025
+    SMTP_USER: str = ""
+    SMTP_PASS: str = ""
 
     class Config:
         env_file = ".env"

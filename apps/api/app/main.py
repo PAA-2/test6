@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.routes import auth, users, projects, files
+from app.api.routes import auth, users, projects, files, notifications
 from app.database import Base, engine
 
 Base.metadata.create_all(bind=engine)
@@ -10,3 +10,4 @@ app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(projects.router)
 app.include_router(files.router)
+app.include_router(notifications.router)

@@ -22,6 +22,8 @@ def update_me(
 ) -> User:
     if user_in.full_name is not None:
         current_user.full_name = user_in.full_name
+    if user_in.email_notifications is not None:
+        current_user.email_notifications = user_in.email_notifications
     db.add(current_user)
     db.commit()
     db.refresh(current_user)
