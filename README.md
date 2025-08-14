@@ -79,3 +79,26 @@ repo/
     web/
   docker-compose.yml
 ```
+
+# PAA-P9
+
+Ajout de l'API publique avec clés API par organisation, webhooks signés et portail développeurs.
+
+## Variables d'environnement
+- `PUBLIC_API_ENABLED=true`
+- `API_RATE_LIMIT_PER_MINUTE=60`
+- `WEBHOOK_MAX_RETRIES=5`
+- `WEBHOOK_TIMEOUT_SECONDS=5`
+- `WEBHOOK_TOLERANCE_SECONDS=300`
+
+## Exemple curl
+```bash
+curl -H "Authorization: Bearer paa_live_xxx" http://localhost:8000/api/v1/projects
+```
+
+## Webhooks
+Signature HMAC :
+```python
+base = f"{timestamp}.{payload}"
+sig = hmac_sha256(secret, base)
+```

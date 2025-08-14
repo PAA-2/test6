@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     THUMBNAIL_MAX_SIZE: int = 512
     THUMBNAIL_QUALITY: int = 80
     NOTIFICATIONS_RETENTION_DAYS: int = 30
+    PUBLIC_API_ENABLED: bool = True
+    API_RATE_LIMIT_PER_MINUTE: int = 60
+    WEBHOOK_MAX_RETRIES: int = 5
+    WEBHOOK_TIMEOUT_SECONDS: int = 5
+    WEBHOOK_TOLERANCE_SECONDS: int = 300
 
     class Config:
         env_file = ".env"

@@ -12,6 +12,8 @@ from app.api.routes import (
     orgs,
     me_org,
     invites,
+    public_api,
+    dev_portal,
 )
 from app.database import Base, engine
 
@@ -29,3 +31,5 @@ app.include_router(search.router)
 app.include_router(orgs.router)
 app.include_router(invites.router)
 app.include_router(me_org.router)
+app.include_router(public_api.router)
+app.include_router(dev_portal.router)

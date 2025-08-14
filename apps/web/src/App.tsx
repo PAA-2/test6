@@ -9,6 +9,9 @@ import MyFiles from './pages/MyFiles';
 import MyNotifications from './pages/MyNotifications';
 import Jobs from './pages/Jobs';
 import Search from './pages/Search';
+import DevPortal from './pages/DevPortal';
+import ApiKeys from './pages/ApiKeys';
+import Webhooks from './pages/Webhooks';
 
 function App() {
   const token = localStorage.getItem('token') || '';
@@ -26,6 +29,9 @@ function App() {
       <Route path="/notifications" element={<MyNotifications token={token} />} />
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/dev" element={<DevPortal />} />
+      <Route path="/dev/api-keys" element={<ApiKeys />} />
+      <Route path="/dev/webhooks" element={<Webhooks />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );

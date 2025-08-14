@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models.file import File
+from app.events import publishers as events
 
 
 def save_file(
@@ -29,6 +30,7 @@ def save_file(
     db.add(db_file)
     db.commit()
     db.refresh(db_file)
+    events.file_uploaded(db, org_id, db_file.id)
     return db_file
 
 

@@ -3,6 +3,7 @@ from typing import Any, Dict
 from sqlalchemy.orm import Session
 
 from app.models.project import Project, ProjectAudit
+from app.events import publishers as events
 
 
 def create_project(db: Session, *, project_in: Dict[str, Any], user_id: int) -> Project:
@@ -15,6 +16,7 @@ def create_project(db: Session, *, project_in: Dict[str, Any], user_id: int) -> 
     )
     db.add(audit)
     db.commit()
+    events.project_created(db, project.org_id, project.id)
     return project
 
 
@@ -39,6 +41,7 @@ def update_project(
         )
     )
     db.commit()
+    events.project_updated(db, project.org_id, project.id)
     return project
 
 
