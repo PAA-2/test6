@@ -19,3 +19,9 @@ rq
 croniter
 pillow
 fakeredis
+prometheus-client
+itsdangerous
+opentelemetry-sdk
+opentelemetry-instrumentation-fastapi
+opentelemetry-instrumentation-sqlalchemy
+opentelemetry-exporter-otlp

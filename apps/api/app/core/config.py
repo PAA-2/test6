@@ -30,6 +30,16 @@ class Settings(BaseSettings):
     THUMBNAIL_MAX_SIZE: int = 512
     THUMBNAIL_QUALITY: int = 80
     NOTIFICATIONS_RETENTION_DAYS: int = 30
+    OBSERVABILITY_ENABLED: bool = True
+    OTEL_EXPORTER_OTLP_ENDPOINT: str = "http://otel-collector:4318"
+    PROMETHEUS_ENABLED: bool = True
+    CSP_DEFAULT_SRC: str = "default-src 'self'"
+    LOGIN_BRUTE_LIMIT_PER_MIN: int = 5
+    LOGIN_BRUTE_BAN_MINUTES: int = 10
+    RESET_TOKEN_TTL_MIN: int = 30
+    BACKUP_CRON_DB: str = "0 3 * * *"
+    BACKUP_CRON_STORAGE: str = "30 3 * * *"
+    BACKUP_RETENTION_DAYS: int = 7
     PUBLIC_API_ENABLED: bool = True
     API_RATE_LIMIT_PER_MINUTE: int = 60
     WEBHOOK_MAX_RETRIES: int = 5

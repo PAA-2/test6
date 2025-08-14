@@ -102,3 +102,19 @@ Signature HMAC :
 base = f"{timestamp}.{payload}"
 sig = hmac_sha256(secret, base)
 ```
+
+## PAA-P10
+
+- Logs structurés JSON avec identifiant de requête
+- Endpoint `/metrics` exposant métriques Prometheus
+- Protection brute-force sur le login et flux de reset mot de passe
+- Feature flags et paramètres d'application administrables
+- Scripts `scripts/backup.sh` et `scripts/restore.sh`
+
+### Tests & Lint
+```bash
+ruff check .
+black --check .
+cd apps/api && PYTHONPATH=. pytest tests/test_password_reset_flow.py tests/test_feature_flags.py tests/test_cache_headers.py tests/test_bruteforce_guard.py tests/test_observability_metrics.py -q
+cd apps/web && npm run lint && npm test
+```

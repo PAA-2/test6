@@ -16,6 +16,12 @@ dependencies = [
     "redis",
     "rq",
     "croniter",
+    "prometheus-client",
+    "itsdangerous",
+    "opentelemetry-sdk",
+    "opentelemetry-instrumentation-fastapi",
+    "opentelemetry-instrumentation-sqlalchemy",
+    "opentelemetry-exporter-otlp",
     "pillow",
 ]
 
@@ -31,5 +37,3 @@ dev = [
 [tool.black]
 line-length = 88
 
-[tool.ruff]
-line-length = 88
