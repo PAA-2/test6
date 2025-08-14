@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import ProjectsList from './pages/ProjectsList';
 import ProjectForm from './pages/ProjectForm';
 import ProjectDetails from './pages/ProjectDetails';
+import MyFiles from './pages/MyFiles';
 
 function App() {
   const token = localStorage.getItem('token') || '';
@@ -18,6 +19,7 @@ function App() {
       <Route path="/projects/new" element={<ProjectForm token={token} />} />
       <Route path="/projects/:id" element={<ProjectDetails token={token} />} />
       <Route path="/projects/:id/edit" element={<ProjectForm token={token} editing />} />
+      <Route path="/files" element={<MyFiles token={token} />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );

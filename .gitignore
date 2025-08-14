@@ -9,3 +9,6 @@ node_modules/
 coverage/
 .coverage
 dist/
+storage/uploads/*
+!storage/uploads/.gitignore
+test_uploads/

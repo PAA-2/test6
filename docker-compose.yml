@@ -17,6 +17,8 @@ services:
       - db
     ports:
       - "8000:8000"
+    volumes:
+      - uploads_data:/app/storage/uploads
   web:
     build: ./apps/web
     env_file: ./apps/web/.env
@@ -26,3 +28,4 @@ services:
       - "5173:5173"
 volumes:
   db_data:
+  uploads_data:

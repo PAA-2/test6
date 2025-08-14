@@ -1,6 +1,6 @@
-# PAA-P2
+# PAA-P3
 
-Ce projet étend PAA-P1 avec un système de rôles et un CRUD "Project" complet.
+Ce projet étend PAA-P1 avec un système de rôles, un CRUD "Project" complet et une gestion des fichiers.
 
 ## Démarrer
 
@@ -35,8 +35,12 @@ npm run dev
 - `PUT /projects/{id}` (admin ou propriétaire/editor)
 - `DELETE /projects/{id}` (admin ou propriétaire si autorisé)
 - `PATCH /users/{id}/role` (admin)
+- `POST /files/upload`
+- `GET /files`
+- `GET /files/{id}/download`
+- `DELETE /files/{id}`
 
-Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`.
+Variables d'environnement clés dans `apps/api/.env.example` : `ALLOW_OWNER_DELETE`, `PROJECTS_PAGE_SIZE_DEFAULT`, `PROJECTS_PAGE_SIZE_MAX`, `MAX_FILE_SIZE_MB`, `ALLOWED_FILE_TYPES`.
 
 ## Structure
 
