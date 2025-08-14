@@ -16,6 +16,11 @@ class UserUpdate(BaseModel):
 
 class UserRead(UserBase):
     id: int
+    role: str
 
     class Config:
         orm_mode = True
+
+
+class UserRoleUpdate(BaseModel):
+    role: str

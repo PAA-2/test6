@@ -4,6 +4,7 @@ import { getMe } from '../api';
 interface User {
   email: string;
   full_name?: string;
+  role?: string;
 }
 
 export default function Dashboard() {
@@ -13,7 +14,12 @@ export default function Dashboard() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      getMe(token).then(setUser).catch(() => setError('Failed to load'));
+      getMe(token)
+        .then((u) => {
+          setUser(u);
+          if (u.role) localStorage.setItem('role', u.role);
+        })
+        .catch(() => setError('Failed to load'));
     }
   }, []);
 
